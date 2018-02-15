@@ -39,10 +39,11 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	socket.on('message', function(data) {
-		//0: date and time, 1: recipient 2: sender 3: name of sender 4: text message 5: the public key
+		//0: date and time, 1: recipient 2: sender 3: name of sender 4: text message 5: the public key 6:id message
 		if (typeof clients[data[1]] !=="undefined"){
+		var id = Math.random();
 		var sidid = clients[data[1]][2]
-		io.sockets.sockets[sidid].emit('message', data[0],data[1],data[2],data[3],data[4],data[5]);
+		io.sockets.sockets[sidid].emit('message', data[0],data[1],data[2],data[3],data[4],data[5],id);
 		socket.emit('eventmessage', 'The message sent to the user.'); //The message sent to the user
 		} else { socket.emit('eventmessage', 'The message is not sent! The user disconnects!'); } // if the user is offline then write to the sender
 	});
